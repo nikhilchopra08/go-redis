@@ -2,36 +2,36 @@ package main
 
 import (
 	"bufio"
-	"os"
 	"fmt"
 	"strings"
+	"os"
 	"strconv"
 )
 
+func main() {	
+	// $5\r\nNikhil\r\n
 
-func main(){
-input := "$6\r\nNikhil\r\n"
+	input := "$5\r\nNikhil\r\n"
+	reader := bufio.NewReader(strings.NewReader(input))
 
-reader := bufio.NewReader(strings.NewReader(input))
+	b, _ := reader.ReadByte()
 
-b, _ := reader.ReadByte()
+	if b != '$' {
+		fmt.Println("Invalid type, Expecting strings only")
+		os.Exit(1)
+	}
 
-if b != '$' {
-	fmt.Println("Invalid type, expecting only string")
-	os.Exit(1)
-}
+	size, _ := reader.ReadByte()
 
-size, _ := reader.ReadByte()
+	strSize, _:= strconv.ParseInt(string(size), 10, 64)
 
-strsize, _ :=  strconv.ParseInt(string(size), 10, 64)
+	// consume \r\n
+	reader.ReadByte()
+	reader.ReadByte()
 
-// consure /r/n
-reader.ReadByte()
-reader.ReadByte()
+	name := make([]byte, strSize)
+	reader.Read(name)
 
-name := make([]byte, strsize)
-reader.Read(name)
-
-fmt.Println(string(name))
+	fmt.Println(string(name))
 
 }
