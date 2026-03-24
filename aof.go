@@ -5,6 +5,7 @@ import (
 	"bufio"
 	"sync"
 	"time"
+	"io"
 )
 
 type Aof struct {
@@ -56,8 +57,8 @@ func (aof *Aof) Write(value Value) error{
 	return nil
 }
 
-func (aod *Aof) Read(callback func(value Value)) error{
-	aof.mut.Lock()
+func (aof *Aof) Read(callback func(value Value)) error{
+	aof.mu.Lock()
 	defer aof.mu.Unlock()
 
 	resp := newResp(aof.file)
