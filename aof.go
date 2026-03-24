@@ -56,3 +56,23 @@ func (aof *Aof) Write(value Value) error{
 	return nil
 }
 
+func (aod *Aof) Read(callback func(value Value)) error{
+	aof.mut.Lock()
+	defer aof.mu.Unlock()
+
+	resp := newResp(aof.file)
+
+	for{
+		value, err := resp.Read()
+
+		if err == nil{
+			callback(value)
+		}
+		if err == io.EOF{
+			break
+		}
+		return err
+	}
+	return nil
+
+}
