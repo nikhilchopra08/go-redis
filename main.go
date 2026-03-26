@@ -35,24 +35,18 @@ func main(){
 		handler(args)
 	})
 
-	for {
-		conn, err := l.Accept()
-		if err != nil {
-			fmt.Println(err)
-			continue // don't kill the server on a single bad accept
-		}
-
-		go handleConn(conn, aof) // ← each client gets its own goroutine
+	conn, err := l.Accept()
+	if err != nil {
+		fmt.Println(err)
+		return
 	}
-}
 
-func handleConn(conn net.Conn, aof *Aof) {
-	defer conn.Close() // ← moved here, so each goroutine cleans up its own conn
+	defer conn.Close()
 
 	for {
 		resp := newResp(conn)
 		value, err := resp.Read()
-		if err != nil {
+		if err != nil{
 			fmt.Println(err)
 			return
 		}
@@ -62,13 +56,14 @@ func handleConn(conn net.Conn, aof *Aof) {
 			continue
 		}
 
-		if len(value.array) == 0 {
+		if len(value.array) == 0{
 			fmt.Println("Invalid request, expected array length > 0")
 			continue
 		}
 
 		command := strings.ToUpper(value.array[0].bulk)
 		args := value.array[1:]
+
 		writer := newWriter(conn)
 
 		handler, ok := Handlers[command]
