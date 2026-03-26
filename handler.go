@@ -12,6 +12,7 @@ var Handlers = map[string]func([]Value) Value{
 	"HSET":    hset,
 	"HGET":    hget,
 	"HGETALL": hgetall,
+	"CONFIG":  config,
 }
 
 func ping(args []Value) Value{
@@ -125,4 +126,8 @@ func hgetall(args []Value) Value {
 	}
 
 	return Value{typ: "array", array: values}
+}
+
+func config(args []Value) Value {
+    return Value{typ: "null"}
 }
