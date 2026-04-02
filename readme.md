@@ -47,7 +47,7 @@ Measured using `redis-benchmark` against a local GoRedis instance:
 ### Run
 
 ```bash
-git clone https://github.com/yourusername/goredis.git
+git clone https://github.com/nikhilchopra08/go-redis
 cd goredis
 go run *.go
 ```
