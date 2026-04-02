@@ -32,8 +32,6 @@ Measured using `redis-benchmark` against a local GoRedis instance:
 |----------------------|------------------------------------|
 | `SET key value`      | Set a key to a string value        |
 | `GET key`            | Get the value of a key             |
-| `DEL key [key ...]`  | Delete one or more keys            |
-| `EXISTS key`         | Check if a key exists              |
 | `PING`               | Test connection liveness           |
 
 ---
